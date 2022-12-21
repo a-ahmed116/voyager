@@ -6,6 +6,7 @@ use ArrayAccess;
 use Illuminate\Database\Eloquent\Model;
 use JsonSerializable;
 use TCG\Voyager\Facades\Voyager as VoyagerFacade;
+use Illuminate\Support\Str;
 
 class Translator implements ArrayAccess, JsonSerializable
 {
