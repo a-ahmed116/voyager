@@ -32,6 +32,16 @@ class Translator implements ArrayAccess, JsonSerializable
             ];
         }
 
+        
+        foreach ($this->model->getRelations() as $relation => $value) {
+            $attributes[Str::snake($relation)] = [
+                'value'    => $value,
+                'locale'   => $this->locale,
+                'exists'   => true,
+                'modified' => false,
+            ];
+        }
+
         $this->attributes = $attributes;
     }
 
@@ -43,6 +53,29 @@ class Translator implements ArrayAccess, JsonSerializable
             $this->translateAttribute($attribute, $locale, $fallback);
         }
 
+        
+        foreach ($this->model->getRelations() as $key => $relation) {
+            if ($key == "translations") {
+                unset($this[$key]);
+                continue;
+            }
+            
+            if ((new Voyager)->translatable($relation)) {
+                $this[Str::snake($key)] = $relation->translate($locale, $fallback);
+            }
+        }
+        
+        // Get Appended Attributes
+        foreach ($this->model->getMutatedAttributes() as $appendKey) {
+            if ($appendKey == 'field_translations' || $appendKey == 'translated') continue; // Cause an error when we create/update model with translation fields (we must find a better way to do that of course)
+
+            if (!isset($this[$appendKey])) {
+                $this[$appendKey] = '';
+            }
+
+            $this[$appendKey] = $this->model->{$appendKey};
+        }
+        
         return $this;
     }
 
