@@ -111,13 +111,13 @@ trait Translatable
      *
      * @return Translator
      */
-    public function translate($language = null, $fallback = true)
+    public function translate($language = null, $fallback = true, $returnTranslations = false)
     {
         if (!$this->relationLoaded('translations')) {
             $this->load('translations');
         }
 
-        return (new Translator($this))->translate($language, $fallback);
+        return (new Translator($this))->translate($language, $fallback, $returnTranslations);
     }
 
     /**
