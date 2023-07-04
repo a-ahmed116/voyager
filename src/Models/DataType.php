@@ -219,6 +219,12 @@ class DataType extends Model
             : $this->name
         )->toArray();
 
+        $_fieldOptions['multiple_images'] = [
+            'name' => 'Multiple Images',
+            'type' => 'multiple_images',
+            'display_name' => 'Multiple Images',
+        ];
+
         $fieldOptions = [];
         $f_size = count($orderedFields);
         for ($i = 0; $i < $f_size; $i++) {
