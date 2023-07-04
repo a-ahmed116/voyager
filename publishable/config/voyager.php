@@ -1,7 +1,5 @@
 <?php
 
-use TCG\Voyager\Widgets\MultipleImages;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +144,7 @@ return [
         ],
 
         'widgets' => [
-            MultipleImages::class,
+
         ],
 
     ],
