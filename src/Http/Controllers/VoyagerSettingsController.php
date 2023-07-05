@@ -261,9 +261,8 @@ class VoyagerSettingsController extends Controller
 
             $setting->value = count($images) == 0 ?  '' : json_encode($images);
             $setting->save();
+            request()->session()->flash('setting_tab', $setting->group);
         }
-
-        request()->session()->flash('setting_tab', $setting->group);
 
         return back()->with([
             'message' => __('voyager::settings.successfully_removed', ['name' => $setting->display_name]),
