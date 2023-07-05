@@ -494,7 +494,7 @@
             }
 
             $('#confirm_delete').on('click', function(){
-                $.post('{{ route('voyager.settings.media.remove') }}', params, function (response) {
+                $.post('{{ route('voyager.settings.remove_media') }}', params, function (response) {
                     if ( response
                         && response.data
                         && response.data.status
