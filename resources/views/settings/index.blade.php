@@ -471,6 +471,45 @@
 @section('javascript')
     <script>
         $('document').ready(function () {
+            var params = {};
+            var $file;
+
+            $('.panel-body').on('click', '.remove-multi-image', deleteHandler('img', true));
+            function deleteHandler(tag, isMulti) {
+                return function() {
+                    $file = $(this).siblings(tag);
+
+                    params = {
+                        slug:   'settings',
+                        filename:  $file.data('file-name'),
+                        id:     $file.data('id'),
+                        field:  $file.parent().data('field-name'),
+                        multi: isMulti,
+                        _token: '{{ csrf_token() }}'
+                    }
+
+                    $('.confirm_delete_name').text(params.filename);
+                    $('#confirm_delete_modal').modal('show');
+                };
+            }
+
+            $('#confirm_delete').on('click', function(){
+                $.post('{{ route('voyager.settings.media.remove') }}', params, function (response) {
+                    if ( response
+                        && response.data
+                        && response.data.status
+                        && response.data.status == 200 ) {
+
+                        toastr.success(response.data.message);
+                        $file.parent().fadeOut(300, function() { $(this).remove(); })
+                    } else {
+                        toastr.error("Error removing file.");
+                    }
+                });
+
+                $('#confirm_delete_modal').modal('hide');
+            });
+
             $('#toggle_options').click(function () {
                 $('.new-settings-options').toggle();
                 if ($('#toggle_options .voyager-double-down').length) {
