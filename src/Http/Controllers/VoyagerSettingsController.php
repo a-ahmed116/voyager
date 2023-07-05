@@ -248,8 +248,6 @@ class VoyagerSettingsController extends Controller
         $file = $request->get('filename');
         $setting = Voyager::model('Setting')->find($id);
 
-        $this->authorize('delete', $setting);
-
         if (!empty($setting)) {
             $images = json_decode($setting->value);
 
