@@ -517,14 +517,11 @@
 
             $('#confirm_delete').on('click', function(){
                 $.post('{{ route('voyager.settings.remove_media') }}', params, function (response) {
-                    if ( response
-                        && response.data
-                        && response.data.status
-                        && response.data.status == 200 ) {
-
-                        toastr.success(response.data.message);
+                    if ( response) {
+                        toastr.success('Success');
                         $file.parent().fadeOut(300, function() { $(this).remove(); })
                     } else {
+                        console.log(response);
                         toastr.error("Error removing file.");
                     }
                 }).fail(function(response) {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Arr;
 
 class VoyagerSettingsController extends Controller
 {
@@ -249,23 +250,21 @@ class VoyagerSettingsController extends Controller
         $setting = Voyager::model('Setting')->find($id);
 
         if (!empty($setting)) {
-            $images = json_decode($setting->value);
+            $images = json_decode($setting->value, true);
+            var_dump($images);
 
             $key = array_search($file, $images);
-            if ($key != null) {
-                if (Storage::disk(config('voyager.storage.disk'))->exists($file)) {
-                    Storage::disk(config('voyager.storage.disk'))->delete($file);
-                }
-                unset($images[$key]);
+            if (Storage::disk(config('voyager.storage.disk'))->exists($file)) {
+                Storage::disk(config('voyager.storage.disk'))->delete($file);
             }
-
-            $setting->value = count($images) == 0 ?  '' : json_encode($images);
+            unset($images[$key]);
+            $setting->value = json_encode($images);
             $setting->save();
             request()->session()->flash('setting_tab', $setting->group);
         }
 
         return back()->with([
-            'message' => __('voyager::settings.successfully_removed', ['name' => $setting->display_name]),
+            'message' => __('voyager::settings.successfully_removed', ['name' => $file]),
             'alert-type' => 'success',
         ]);
     }
