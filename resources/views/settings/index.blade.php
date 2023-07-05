@@ -299,6 +299,21 @@
                                             @endif
                                         @endif
                                         <input type="file" name="{{ $setting->key }}">
+                                    @elseif($setting->type == "multiple_images")
+                                        @if(isset($setting->value))
+                                            <?php $images = json_decode($setting->value); ?>
+                                            @if($images != null)
+                                                @foreach($images as $image)
+                                                    <div class="img_settings_container" data-field-name="{{ $row->field }}" style="float:left;padding-right:15px;">
+                                                        <a href="{{ route('voyager.settings.delete_value', $setting->id) }}" class="voyager-x remove-multi-image" style="position: absolute;"></a>
+                                                        <img src="{{ Voyager::image( $image ) }}" data-file-name="{{ $image }}" data-id="{{ $setting->key }}" style="max-width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:5px;">
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                        <div class="clearfix"></div>
+
+                                        <input required type="file" name="{{ $setting->key }}[]" multiple="multiple" accept="image/*">
                                     @elseif($setting->type == "select_dropdown")
                                         <?php $options = json_decode($setting->details); ?>
                                         <?php $selected_value = (isset($setting->value) && !empty($setting->value)) ? $setting->value : NULL; ?>
@@ -392,6 +407,7 @@
                             <option value="select_dropdown">{{ __('voyager::form.type_selectdropdown') }}</option>
                             <option value="file">{{ __('voyager::form.type_file') }}</option>
                             <option value="image">{{ __('voyager::form.type_image') }}</option>
+                            <option value="multiple_images">Multiple Images</option>
                         </select>
                     </div>
                     <div class="col-md-3">
