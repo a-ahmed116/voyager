@@ -304,7 +304,7 @@
                                             <?php $images = json_decode($setting->value); ?>
                                             @if($images != null)
                                                 @foreach($images as $image)
-                                                    <div class="img_settings_container" data-field-name="{{ $row->field }}" style="float:left;padding-right:15px;">
+                                                    <div class="img_settings_container" data-field-name="{{ $setting->key }}" style="float:left;padding-right:15px;">
                                                         <a href="{{ route('voyager.settings.delete_value', $setting->id) }}" class="voyager-x remove-multi-image" style="position: absolute;"></a>
                                                         <img src="{{ Voyager::image( $image ) }}" data-file-name="{{ $image }}" data-id="{{ $setting->key }}" style="max-width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:5px;">
                                                     </div>
