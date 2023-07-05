@@ -241,4 +241,35 @@ class VoyagerSettingsController extends Controller
 
         return back()->with($data);
     }
+
+    public function remove_media(Request $request)
+    {
+        $id = $request->get('id');
+        $file = $request->get('file');
+        $setting = Voyager::model('Setting')->find($id);
+
+        $this->authorize('delete', $setting);
+
+        if (!empty($setting)) {
+            $images = json_decode($setting->value);
+
+            $key = array_search($file, $images);
+            if ($key != null) {
+                if (Storage::disk(config('voyager.storage.disk'))->exists($file)) {
+                    Storage::disk(config('voyager.storage.disk'))->delete($file);
+                }
+                unset($images[$key]);
+            }
+
+            $setting->value = count($images) == 0 ?  '' : json_encode($images);
+            $setting->save();
+        }
+
+        request()->session()->flash('setting_tab', $setting->group);
+
+        return back()->with([
+            'message' => __('voyager::settings.successfully_removed', ['name' => $setting->display_name]),
+            'alert-type' => 'success',
+        ]);
+    }
 }
