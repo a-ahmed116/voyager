@@ -245,7 +245,7 @@ class VoyagerSettingsController extends Controller
     public function remove_media(Request $request)
     {
         $id = $request->get('id');
-        $file = $request->get('file');
+        $file = $request->get('filename');
         $setting = Voyager::model('Setting')->find($id);
 
         $this->authorize('delete', $setting);
