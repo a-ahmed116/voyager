@@ -527,8 +527,10 @@
                     } else {
                         toastr.error("Error removing file.");
                     }
+                }).fail(function(response) {
+                    alert('Error: ' + response.responseText);
                 });
-
+                
                 $('#confirm_delete_modal').modal('hide');
             });
 
