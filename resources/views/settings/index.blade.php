@@ -313,7 +313,7 @@
                                         @endif
                                         <div class="clearfix"></div>
 
-                                        <input type="file" name="{{ $setting->key }}[]" multiple="multiple" accept="image/*">
+                                        <input required type="file" name="{{ $setting->key }}[]" multiple="multiple" accept="image/*">
                                     @elseif($setting->type == "select_dropdown")
                                         <?php $options = json_decode($setting->details); ?>
                                         <?php $selected_value = (isset($setting->value) && !empty($setting->value)) ? $setting->value : NULL; ?>
