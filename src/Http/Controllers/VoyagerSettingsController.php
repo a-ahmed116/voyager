@@ -98,6 +98,10 @@ class VoyagerSettingsController extends Controller
                 continue;
             }
 
+            if ($setting->type == 'multiple_images' && $content == null) {
+                continue;
+            }
+
             if ($setting->type == 'file' && $content == null) {
                 continue;
             }
