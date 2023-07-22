@@ -516,7 +516,7 @@
             }
 
             $('#confirm_delete').on('click', function(){
-                $.post('{{ url('/admin/settings/remove_media') }}', params, function (response) {
+                $.post('{{ route('voyager.settings.remove_media') }}', params, function (response) {
                     if ( response) {
                         toastr.success('Success');
                         $file.parent().fadeOut(300, function() { $(this).remove(); })
