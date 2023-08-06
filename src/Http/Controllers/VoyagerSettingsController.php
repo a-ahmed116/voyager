@@ -98,6 +98,10 @@ class VoyagerSettingsController extends Controller
                 continue;
             }
 
+            if ($setting->type == 'multiple_images' && $content == null) {
+                continue;
+            }
+
             if ($setting->type == 'file' && $content == null) {
                 continue;
             }
@@ -106,7 +110,13 @@ class VoyagerSettingsController extends Controller
 
             $setting->group = $request->input(str_replace('.', '_', $setting->key) . '_group');
             $setting->key = implode('.', [Str::slug($setting->group), $key]);
-            $setting->value = $content;
+            if ($setting->type == 'multiple_images') {
+                $oldValues = json_decode($setting->value);
+                array_push($oldValues, $content);
+                $setting->value = $oldValues;
+            } else{
+                $setting->value = $content;
+            }
             $setting->save();
         }
 
