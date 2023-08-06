@@ -111,7 +111,7 @@ class VoyagerSettingsController extends Controller
             $setting->group = $request->input(str_replace('.', '_', $setting->key) . '_group');
             $setting->key = implode('.', [Str::slug($setting->group), $key]);
             if ($setting->type == 'multiple_images') {
-                $oldValues = json_decode($setting->value);
+                $oldValues = json_decode($setting->value) ?? [];
                 $decodedContent = json_decode($content);
                 $oldValues = array_merge($oldValues, $decodedContent);
                 $setting->value = json_encode($oldValues);
