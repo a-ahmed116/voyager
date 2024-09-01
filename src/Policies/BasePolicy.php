@@ -76,7 +76,7 @@ class BasePolicy
     protected function checkPermission(User $user, $model, $action)
     {
         $model_name = get_class($model);
-        if ($model_name === 'App\Models\User') {
+        if ($model_name == 'App\Models\User') {
             $model_name = 'TCG\Voyager\Models\User';
         }
 
